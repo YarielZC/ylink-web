@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+@import '@heroui/styles';
+
+@theme {
+  --font-sans: 'font', sans-serif;
+  --font-mono: 'monospace', monospace;
+}

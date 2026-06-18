@@ -1,22 +1,46 @@
 'use client'
 
+import { getApiErrorMessage } from '@/utils/api-errors'
 import { Eye, EyeSlash, Lock, Person } from '@gravity-ui/icons'
-import { Button, Checkbox, FieldError, Form, Input, Label, TextField } from '@heroui/react'
+import {
+  Button,
+  Checkbox,
+  cn,
+  ErrorMessage,
+  FieldError,
+  Form,
+  Input,
+  Label,
+  TextField,
+} from '@heroui/react'
 import { useState } from 'react'
 
 export default function BaseLoginForm() {
   const [passwordVisible, setPasswordVisible] = useState(false)
+  const [serverError, setServerError] = useState('')
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    const data: Record<string, string> = {}
 
-    formData.forEach((value, key) => {
-      data[key] = value.toString()
-    })
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        body: formData,
+      })
 
-    alert(`Form submitted with: ${JSON.stringify(data, null, 2)}`)
+      const data = await response.json()
+
+      if (!response.ok) {
+        const message = getApiErrorMessage(response.status, data)
+        setServerError(message)
+        return
+      }
+
+      console.log(`Inicio de sesion existoso: ${JSON.stringify(data)}`)
+    } catch (e) {
+      setServerError('Error de conexión, verifica tu internet.')
+    }
   }
 
   return (
@@ -83,10 +107,11 @@ export default function BaseLoginForm() {
         </Checkbox.Content>
       </Checkbox>
 
-      <div className="flex gap-2 mt-4">
-        <Button className="rounded-md w-full py-6" type="submit">
+      <div className="flex flex-col gap-2 mt-4">
+        <Button className={cn('rounded-md w-full py-6')} type="submit">
           Iniciar Sesión
         </Button>
+        {serverError && <ErrorMessage className="text-sm mx-auto">{serverError}</ErrorMessage>}
       </div>
     </Form>
   )

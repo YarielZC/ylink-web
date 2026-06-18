@@ -2,7 +2,6 @@
 
 import { Eye, EyeSlash, Lock, Person } from '@gravity-ui/icons'
 import { Button, Checkbox, FieldError, Form, Input, Label, TextField } from '@heroui/react'
-import Link from 'next/link'
 import { useState } from 'react'
 
 export default function BaseLoginForm() {

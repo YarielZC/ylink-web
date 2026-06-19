@@ -41,8 +41,8 @@ export default function BaseLoginForm() {
         return
       }
 
-      router.push('/dashboard')
       await fetchUser()
+      router.push('/dashboard')
     } catch (e) {
       setServerError('Error de conexión, verifica tu internet')
     }
@@ -64,6 +64,7 @@ export default function BaseLoginForm() {
         <div className="flex flex-col relative">
           <Person className="absolute left-3 w-5 h-5 top-3 pointer-events-none text-[#71717A]" />
           <Input
+            name="username"
             className="bg-[#f2f4f6] rounded-md font-light pl-10 py-3 max-sm:text-sm"
             placeholder="Introduzca su usuario o email"
           />
@@ -88,6 +89,7 @@ export default function BaseLoginForm() {
           <Lock className="absolute left-3 w-5 h-5 top-3 pointer-events-none text-[#71717A]" />
 
           <Input
+            name="password"
             className="bg-[#f2f4f6] rounded-md font-light px-10 py-3 max-sm:text-sm"
             placeholder="Introduza su contraseña"
             type={passwordVisible ? 'text' : 'password'}

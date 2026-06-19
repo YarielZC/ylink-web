@@ -1,9 +1,31 @@
 'use client'
 
+import { useAuth } from '@/context/AuthContext'
 import { Button, Separator, Tooltip } from '@heroui/react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function FooterForm() {
+  const router = useRouter()
+  const { fetchUser } = useAuth()
+
+  const loginWithTestUser = async () => {
+    console.log('soi')
+    const formData = new FormData()
+
+    formData.append('username', 'test_user')
+    formData.append('password', 'test_user_password')
+
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      body: formData,
+    })
+
+    const data = await response.json()
+
+    await fetchUser()
+    router.push('/dashboard')
+  }
   return (
     <section className="gap-3 flex flex-col justify-center max-sm:gap-2">
       <Separator orientation="horizontal" className="w-11/12 mx-auto" />
@@ -17,7 +39,9 @@ export default function FooterForm() {
       <div className="mx-auto">
         <Tooltip delay={0} closeDelay={400}>
           <Tooltip.Trigger>
-            <Button variant="outline">Inicia sesión como usuario de prueba</Button>
+            <Button onPress={loginWithTestUser} variant="outline">
+              Inicia sesión como usuario de prueba
+            </Button>
           </Tooltip.Trigger>
           <Tooltip.Content>
             <Tooltip.Arrow />

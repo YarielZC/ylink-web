@@ -4,6 +4,7 @@ import { useAuth } from '@/context/AuthContext'
 import { Button, Separator, Tooltip } from '@heroui/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { startTransition } from 'react'
 
 export default function FooterForm() {
   const router = useRouter()
@@ -24,7 +25,10 @@ export default function FooterForm() {
     const data = await response.json()
 
     await fetchUser()
-    router.push('/dashboard')
+    startTransition(() => {
+      router.refresh()
+      router.push('/dashboard')
+    })
   }
   return (
     <section className="gap-3 flex flex-col justify-center max-sm:gap-2">

@@ -49,12 +49,12 @@ export default function BaseLoginForm() {
   }
 
   return (
-    <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
+    <Form className="flex flex-col gap-4" onSubmit={onSubmit}>
       <TextField
         isRequired
         name="username"
         type="text"
-        className="flex flex-col gap-2"
+        className="flex flex-col gap-2 w-full"
         validate={(value) => {
           if (!value) return 'Este campo no puede quedar vacío.'
 
@@ -64,7 +64,7 @@ export default function BaseLoginForm() {
         <div className="flex flex-col relative">
           <Person className="absolute left-3 w-5 h-5 top-3 pointer-events-none text-[#71717A]" />
           <Input
-            className="bg-[#f2f4f6] rounded-md font-light pl-10 py-3"
+            className="bg-[#f2f4f6] rounded-md font-light pl-10 py-3 max-sm:text-sm"
             placeholder="Introduzca su usuario o email"
           />
         </div>
@@ -88,7 +88,7 @@ export default function BaseLoginForm() {
           <Lock className="absolute left-3 w-5 h-5 top-3 pointer-events-none text-[#71717A]" />
 
           <Input
-            className="bg-[#f2f4f6] rounded-md font-light px-10 py-3"
+            className="bg-[#f2f4f6] rounded-md font-light px-10 py-3 max-sm:text-sm"
             placeholder="Introduza su contraseña"
             type={passwordVisible ? 'text' : 'password'}
           />

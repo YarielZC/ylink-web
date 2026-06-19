@@ -5,9 +5,9 @@ import Link from 'next/link'
 
 export default function FooterForm() {
   return (
-    <section className="gap-3 flex flex-col justify-center">
+    <section className="gap-3 flex flex-col justify-center max-sm:gap-2">
       <Separator orientation="horizontal" className="w-11/12 mx-auto" />
-      <p className="mx-auto">
+      <p className="mx-auto max-sm:text-sm">
         ¿No tienes una cuenta aún?{' '}
         <Link className="text-blue-600" href="/">
           Crear cuenta

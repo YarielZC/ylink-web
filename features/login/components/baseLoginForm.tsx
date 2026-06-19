@@ -1,5 +1,6 @@
 'use client'
 
+import { useAuth } from '@/context/AuthContext'
 import { getApiErrorMessage } from '@/utils/api-errors'
 import { Eye, EyeSlash, Lock, Person } from '@gravity-ui/icons'
 import {
@@ -13,20 +14,23 @@ import {
   Label,
   TextField,
 } from '@heroui/react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function BaseLoginForm() {
   const [passwordVisible, setPasswordVisible] = useState(false)
   const [serverError, setServerError] = useState('')
+  const router = useRouter()
+  const { fetchUser } = useAuth()
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         body: formData,
+        credentials: 'include',
       })
 
       const data = await response.json()
@@ -37,9 +41,10 @@ export default function BaseLoginForm() {
         return
       }
 
-      console.log(`Inicio de sesion existoso: ${JSON.stringify(data)}`)
+      router.push('/dashboard')
+      await fetchUser()
     } catch (e) {
-      setServerError('Error de conexión, verifica tu internet.')
+      setServerError('Error de conexión, verifica tu internet')
     }
   }
 
